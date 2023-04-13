@@ -1,0 +1,11 @@
+{
+  "database":{
+    "path":"db/database.db",
+    "table":{
+      "create":"CREATE TABLE \"ACTIVITIES\" (\"DATE\" INTEGER NOT NULL, \"DESCRIPTION\"\tTEXT NOT NULL, \"COST\" NUMERIC)"
+    },
+    "generic_queries":{
+      "find_table":"SELECT name FROM sqlite_master WHERE type='table' AND name='ACTIVITIES'"
+    }
+  }
+}
