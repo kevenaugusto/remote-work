@@ -133,3 +133,4 @@ dmypy.json
 
 # SQLite3
 *.db
+*.db-journal
