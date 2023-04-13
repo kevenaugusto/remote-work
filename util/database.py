@@ -1,9 +1,25 @@
+import json
 import sqlite3
+
+
+def create_query() -> str:
+    with open('settings/config.json', 'r') as config:
+        return json.load(config)['database']['table']['create']
+
+
+def generic_query(key: str) -> str:
+    with open('settings/config.json', 'r') as config:
+        return json.load(config)['database']['generic_queries'][key]
+
+
+def path() -> str:
+    with open('settings/config.json', 'r') as config:
+        return json.load(config)['database']['path']
 
 
 def check_existence(conn: sqlite3.Connection) -> None:
     cursor = conn.cursor()
-    cursor.execute("""SELECT name FROM sqlite_master WHERE type='table' AND name='ACTIVITIES'""")
+    cursor.execute(generic_query('find_table'))
 
     if cursor.fetchone() is None:
         create_table(conn)
@@ -14,13 +30,5 @@ def check_existence(conn: sqlite3.Connection) -> None:
 
 def create_table(conn: sqlite3.Connection) -> None:
     cursor = conn.cursor()
-
-    cursor.execute("""
-        CREATE TABLE "ACTIVITIES" (
-            "DATE"	INTEGER NOT NULL,
-            "DESCRIPTION"	TEXT NOT NULL,
-            "COST"	NUMERIC
-        )
-    """)
-
+    cursor.execute(create_query())
     cursor.close()
